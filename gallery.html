@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZanEwaste Hub - Gallery | Matunzio</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* ===== GALLERY PAGE SPECIFIC STYLES ===== */
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 120px 5% 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .header-content h1 i {
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .breadcrumb i {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .breadcrumb span {
+            font-weight: 500;
+        }
+
+        /* Floating elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .float-item {
+            position: absolute;
+            font-size: 3rem;
+            color: rgba(255,255,255,0.1);
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .float-item:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .float-item:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+        .float-item:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 1s; }
+        .float-item:nth-child(4) { top: 30%; right: 25%; animation-delay: 3s; }
+
+        /* Admin Upload Section */
+        .admin-upload-section {
+            padding: 2rem 5%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .admin-toggle {
+            margin: 1rem 0;
+        }
+
+        /* Admin Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 50px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: slideInUp 0.5s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .demo-credentials {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Upload Panel */
+        .upload-panel {
+            background: var(--card);
+            border-radius: 50px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+            border: 2px dashed var(--accent);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .upload-panel h3 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .upload-panel h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .upload-preview {
+            border: 3px dashed var(--border);
+            border-radius: 40px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .upload-preview:hover {
+            border-color: var(--accent);
+            background: rgba(230,126,34,0.05);
+        }
+
+        .upload-preview i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .upload-preview input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        /* Gallery Filter */
+        .gallery-filter {
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(230,126,34,0.3);
+        }
+
+        .filter-btn i {
+            font-size: 1rem;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid-section {
+            padding: 2rem 5% 5rem;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 40px -15px rgba(230,126,34,0.4);
+        }
+
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img,
+        .gallery-item:hover video {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(11,59,47,0.9), transparent);
+            color: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gallery-overlay i {
+            color: var(--accent);
+        }
+
+        .gallery-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            z-index: 2;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img,
+        .lightbox-content video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            color: white;
+            text-align: center;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            z-index: 2001;
+            transition: var(--transition);
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            padding: 1rem;
+            z-index: 2001;
+            transition: var(--transition);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            color: var(--accent);
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 5rem;
+            background: var(--card);
+            border-radius: 50px;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+            animation: float 3s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .lightbox-prev,
+            .lightbox-next {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-recycle"></i>
+                <span>Zan<span>Ewaste</span></span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="sw">Nyumbani</a>
+                <a href="index.html" class="en">Home</a>
+                
+                <a href="about.html" class="sw">Kuhusu</a>
+                <a href="about.html" class="en">About</a>
+                
+                <a href="projects.html" class="sw">Miradi</a>
+                <a href="projects.html" class="en">Projects</a>
+                
+                <a href="gallery.html" class="active sw">Matunzio</a>
+                <a href="gallery.html" class="active en">Gallery</a>
+                
+                <a href="report.html" class="sw">Ripoti Taka</a>
+                <a href="report.html" class="en">Report</a>
+                
+                <a href="contact.html" class="sw">Mawasiliano</a>
+                <a href="contact.html" class="en">Contact</a>
+                
+                <a href="founder.html" class="sw">Founder</a>
+                <a href="founder.html" class="en">Founder</a>
+                
+                <a href="partners.html" class="sw">Washirika</a>
+                <a href="partners.html" class="en">Partners</a>
+            </div>
+            
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <button class="lang-toggle" id="langToggle">
+                    <span class="lang-sw">SW</span>
+                    <span class="lang-separator">|</span>
+                    <span class="lang-en">EN</span>
+                </button>
+                
+                <button class="mobile-menu" id="mobileMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header with Floating Elements -->
+    <section class="page-header">
+        <div class="floating-elements">
+            <i class="fas fa-image float-item"></i>
+            <i class="fas fa-video float-item"></i>
+            <i class="fas fa-camera float-item"></i>
+            <i class="fas fa-film float-item"></i>
+        </div>
+        
+        <div class="header-content">
+            <h1>
+                <i class="fas fa-images"></i>
+                <span class="sw">Matunzio Yetu</span>
+                <span class="en">Our Gallery</span>
+            </h1>
+            <div class="breadcrumb">
+                <a href="index.html" class="sw">Nyumbani</a>
+                <a href="index.html" class="en">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span class="sw">Matunzio</span>
+                <span class="en">Gallery</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Upload Section -->
+    <section class="admin-upload-section" id="adminUploadSection">
+        <div class="admin-toggle">
+            <button class="btn btn-primary" id="showAdminPanel">
+                <i class="fas fa-lock"></i>
+                <span class="sw">Ingia kama Admin</span>
+                <span class="en">Admin Login</span>
+            </button>
+        </div>
+
+        <!-- Admin Login Modal -->
+        <div class="admin-modal" id="adminModal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3 class="sw">Ingia kama Admin</h3>
+                <h3 class="en">Admin Login</h3>
+                
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="adminUsername" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="adminPassword" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                
+                <div class="demo-credentials">
+                    <p class="sw">Demo: admin / admin123</p>
+                    <p class="en">Demo: admin / admin123</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Upload Panel -->
+        <div class="upload-panel" id="uploadPanel" style="display: none;">
+            <h3>
+                <i class="fas fa-upload"></i>
+                <span class="sw">Pakia Picha/Video</span>
+                <span class="en">Upload Photos/Videos</span>
+            </h3>
+            
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="upload-grid">
+                    <div class="upload-preview" id="uploadPreview">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p class="sw">Buruta au bonyeza kupakia</p>
+                        <p class="en">Drag or click to upload</p>
+                        <input type="file" id="fileInput" multiple accept="image/*,video/*">
+                    </div>
+                    
+                    <div class="upload-details">
+                        <div class="form-group">
+                            <label class="sw">Kichwa</label>
+                            <label class="en">Title</label>
+                            <input type="text" id="mediaTitle" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="sw">Aina</label>
+                            <label class="en">Category</label>
+                            <select id="mediaCategory">
+                                <option value="collection" class="sw">Ukusanyaji</option>
+                                <option value="collection" class="en">Collection</option>
+                                <option value="recycling" class="sw">Uchakataji</option>
+                                <option value="recycling" class="en">Recycling</option>
+                                <option value="events" class="sw">Matukio</option>
+                                <option value="events" class="en">Events</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="sw">Maelezo</label>
+                            <label class="en">Description</label>
+                            <textarea id="mediaDescription" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i>
+                            <span class="sw">Pakia</span>
+                            <span class="en">Upload</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Gallery Filter -->
+    <section class="gallery-filter">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">
+                <span class="sw">Zote</span>
+                <span class="en">All</span>
+            </button>
+            <button class="filter-btn" data-filter="image">
+                <i class="fas fa-image"></i>
+                <span class="sw">Picha</span>
+                <span class="en">Photos</span>
+            </button>
+            <button class="filter-btn" data-filter="video">
+                <i class="fas fa-video"></i>
+                <span class="sw">Video</span>
+                <span class="en">Videos</span>
+            </button>
+            <button class="filter-btn" data-filter="collection">
+                <i class="fas fa-truck"></i>
+                <span class="sw">Ukusanyaji</span>
+                <span class="en">Collection</span>
+            </button>
+            <button class="filter-btn" data-filter="recycling">
+                <i class="fas fa-recycle"></i>
+                <span class="sw">Uchakataji</span>
+                <span class="en">Recycling</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-grid-section">
+        <div class="gallery-container" id="galleryGrid">
+            <!-- Gallery items will be loaded dynamically -->
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightboxImage" src="" alt="">
+            <video id="lightboxVideo" controls style="display: none;"></video>
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDescription"></p>
+            </div>
+        </div>
+        <a class="lightbox-prev">&#10094;</a>
+        <a class="lightbox-next">&#10095;</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-recycle"></i>
+                    <span>Zan<span>Ewaste</span></span>
+                </div>
+                <p class="sw">Mfumo wa kwanza wa kidijitali wa usimamizi wa taka za kielektroniki Zanzibar.</p>
+                <p class="en">First digital e-waste management system in Zanzibar.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="sw">Viungo vya Haraka</h4>
+                <h4 class="en">Quick Links</h4>
+                <ul>
+                    <li><a href="index.html" class="sw">Nyumbani</a></li>
+                    <li><a href="index.html" class="en">Home</a></li>
+                    <li><a href="about.html" class="sw">Kuhusu</a></li>
+                    <li><a href="about.html" class="en">About</a></li>
+                    <li><a href="projects.html" class="sw">Miradi</a></li>
+                    <li><a href="projects.html" class="en">Projects</a></li>
+                    <li><a href="contact.html" class="sw">Mawasiliano</a></li>
+                    <li><a href="contact.html" class="en">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="sw">Taarifa za Mawasiliano</h4>
+                <h4 class="en">Contact Info</h4>
+                <p><i class="fas fa-envelope"></i> sonibrahimdigtech@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +255 775 05 780</p>
+                <p><i class="fab fa-instagram"></i> e_wastezanzibar25</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="sw">Tufuate</h4>
+                <h4 class="en">Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 <strong>SonDigital</strong> | 
+                <span class="sw">Haki zote zimehifadhiwa</span>
+                <span class="en">All rights reserved</span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        // Gallery data and functions
+        let galleryItems = [];
+        let currentIndex = 0;
+        let filteredItems = [];
+
+        // Load gallery on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGallery();
+            initFilters();
+            initUpload();
+        });
+
+        // Load gallery items
+        function loadGallery() {
+            const saved = localStorage.getItem('galleryItems');
+            if (saved) {
+                galleryItems = JSON.parse(saved);
+            } else {
+                // Default items
+                galleryItems = [
+                    {
+                        id: 1,
+                        type: 'image',
+                        src: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=400',
+                        title: 'Ukusanyaji Stone Town',
+                        titleEn: 'Stone Town Collection',
+                        category: 'collection',
+                        description: 'Wakusanyaji wakichukua taka'
+                    },
+                    {
+                        id: 2,
+                        type: 'image',
+                        src: 'https://images.unsplash.com/photo-1542293787935-c9e299b880cc?w=400',
+                        title: 'Uchakataji Pemba',
+                        titleEn: 'Recycling Pemba',
+                        category: 'recycling',
+                        description: 'Kituo cha uchakataji'
+                    }
+                ];
+            }
+            displayGallery(galleryItems);
+        }
+
+        // Display gallery
+        function displayGallery(items) {
+            const container = document.getElementById('galleryGrid');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-images"></i>
+                        <p class="sw">Hakuna media bado. Bonyeza "Pakia Media" kuongeza.</p>
+                        <p class="en">No media yet. Click "Upload Media" to add.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                div.setAttribute('data-index', index);
+                
+                const title = document.documentElement.getAttribute('data-lang') === 'sw' ? item.title : (item.titleEn || item.title);
+                
+                div.innerHTML = `
+                    <img src="${item.src}" alt="${title}">
+                    <span class="gallery-badge"><i class="fas fa-${item.type === 'image' ? 'image' : 'video'}"></i> ${item.category}</span>
+                    <div class="gallery-overlay">
+                        <h4>${title}</h4>
+                        <p><i class="fas fa-calendar"></i> ${new Date().toLocaleDateString()}</p>
+                    </div>
+                `;
+                
+                div.onclick = () => openLightbox(index);
+                container.appendChild(div);
+            });
+        }
+
+        // Filter functionality
+        function initFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.dataset.filter;
+                    
+                    if (filter === 'all') {
+                        filteredItems = galleryItems;
+                    } else {
+                        filteredItems = galleryItems.filter(item => 
+                            item.type === filter || item.category === filter
+                        );
+                    }
+                    
+                    displayGallery(filteredItems);
+                });
+            });
+        }
+
+        // Lightbox functions
+        function openLightbox(index) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImage');
+            const lightboxTitle = document.getElementById('lightboxTitle');
+            
+            currentIndex = index;
+            const item = filteredItems.length ? filteredItems[index] : galleryItems[index];
+            
+            lightboxImg.src = item.src;
+            lightboxTitle.textContent = document.documentElement.getAttribute('data-lang') === 'sw' ? item.title : (item.titleEn || item.title);
+            
+            lightbox.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Admin panel
+        function showAdminPanel() {
+            document.getElementById('adminModal').classList.add('show');
+        }
+
+        // Close modal when clicking X
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            document.getElementById('adminModal').classList.remove('show');
+        });
+
+        // Handle admin login
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === 'admin' && password === 'admin123') {
+                document.getElementById('adminModal').classList.remove('show');
+                document.getElementById('uploadPanel').style.display = 'block';
+                alert('Logged in as admin');
+            } else {
+                alert('Invalid credentials');
+            }
+        });
+
+        // Handle upload form
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('mediaTitle').value;
+            const files = document.getElementById('fileInput').files;
+            
+            if (files.length > 0) {
+                alert(`Uploaded: ${title} (${files.length} files)`);
+                document.getElementById('uploadPanel').style.display = 'none';
+                location.reload();
+            }
+        });
+
+        // Close lightbox with ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
